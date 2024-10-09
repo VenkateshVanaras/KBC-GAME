@@ -53,6 +53,7 @@ const Game = () => {
   const [value, setValue] = useState(true)
   const [count, setCount] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
+  const [result, setResult] = useState(false)
 
   const changeStateValue = () => {
     console.log(value)
@@ -80,6 +81,15 @@ const Game = () => {
     }, 3000)
   }
 
+  const timerRefresh = () => {
+    setTimeout(() => {
+      setValue(true)
+      setCount(0)
+      setShowAnswer(false)
+      setResult(false)
+    }, 3000)
+  }
+
   const itemClick = event => {
     const {answer} = list[count]
     console.log(event.target.textContent)
@@ -87,13 +97,17 @@ const Game = () => {
       setShowAnswer(true)
       timer()
     } else {
-      console.log('You are Wrong')
+      setShowAnswer(true)
+      setResult(true)
+      timerRefresh()
     }
   }
 
   const gameStart = () => {
     const {QN, Question, opt1, opt2, opt3, opt4} = list[count]
-    const resultContent = count === 4 ? 'You won the Game' : 'You are Correct.'
+    //const resultContent = count === 4 ? 'You won the Game' : 'You are Correct.'
+    const finalResult = result ? 'You are Wrong.' : 'Yor are Correct'
+    console.log(finalResult)
 
     return (
       <div className="container">
@@ -144,7 +158,7 @@ const Game = () => {
         </ul>
         {showAnswer ? (
           <button type="button" className="button">
-            {resultContent}
+            {finalResult}
           </button>
         ) : (
           ''
